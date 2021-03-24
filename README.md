@@ -12,15 +12,15 @@ Then navigate to [localhost](http://localhost)
 
 #### Usage
 
-Enter a URL to be shortened then click 'Shorten Url'.
+Enter a URL to be shortened then click 'Shorten URL'.
 
 ![Shorten URL](https://raw.githubusercontent.com/robertveboyd/rethink-url-shortener/master/images/usage-1.png)
 
-A shortened URL will be displayed under 'Shortened Url'.  To shorten another URL click 'Shorten Another'.  To view recently shortened URLs click 'Show Urls'
+A shortened URL will be displayed under 'Shortened URL'.  To shorten another URL click 'Shorten Another'.  To view recently shortened URLs click 'Show URLS'
 
 ![Shorten Another](https://raw.githubusercontent.com/robertveboyd/rethink-url-shortener/master/images/usage-2.png)
 
-Clicking 'Show Url's will display the last 5 shortened URLs with the original URL they redirect to.  Clicking on a URL will open it up in a new window.  Clicking 'Delete' will remove all previously saved shortened URLs.
+Clicking 'Show URLS' will display the last 5 shortened URLs with the original URL they redirect to.  Clicking on a URL will open it up in a new window.  Clicking 'Delete' will remove all previously saved shortened URLs.
 
 ![Show URLs](https://raw.githubusercontent.com/robertveboyd/rethink-url-shortener/master/images/usage-3.png)
 
@@ -30,21 +30,21 @@ The full-stack application is dockerized to enable easy runtime on any system.  
 
 ![Docker network](https://raw.githubusercontent.com/robertveboyd/rethink-url-shortener/master/images/docker-network.png)
 
-The frontend is built with React using tailwind.css for styling.  A static production build is created and served on port 8000 with Nginx.
-The backend uses Express for its web server served on port 9000.  Mongoose is used to connect to MongoDB.
-A proxy server is set up with Nginx to serve both the frontend and backend through port 80, this is the only port exposed outside of the container.
+- The frontend is built with React using tailwind.css for styling.  A static production build is created and served on port 8000 with Nginx.
+- The backend uses Express for its web server served on port 9000.  Mongoose is used to connect to MongoDB.
+- A proxy server is set up with Nginx to serve both the frontend and backend through port 80, this is the only port exposed outside of the container.
 
 ##### URL Model
 
 field | type | desciption | example
 -------------: | -------------: | ------------- | -------------
-short | String | the encoded shorten url | ac7z 
-long | String | the originally supplied url | https://www.enterprisestorageforum.com/cloud/8-cloud-storage-problems-and-how-to-avoid-them/
-seq_id | Number | auto-incrementing id used to encode url | 253606
+short | String | the encoded shorten URL | ac7z 
+long | String | the originally supplied URL | https://www.enterprisestorageforum.com/cloud/8-cloud-storage-problems-and-how-to-avoid-them/
+seq_id | Number | auto-incrementing id used to encode URL | 253606
 
 #### URL Shortening
 
-The shortened URL returned is obtained by encoding an auto-incrementing ID that gets assigned to each Url record added to the database.  The encoding is in base 62.  The shortened url will look like http://rethink/[short].
+The shortened URL returned is obtained by encoding an auto-incrementing ID that gets assigned to each URL record added to the database.  The encoding is in base 62.  The shortened URL will look like http://rethink/[short].
 
 ##### Encoding pseudo code
     BASE62 = [a-zA-Z0-9]
@@ -101,7 +101,7 @@ id | encode(id)<sub>10</sub> | encode(id)<sub>62</sub>
 
 ##### Encoding Length
 
-Unlike popular url shortening services that use a fixed character size encoding, this particular implementation has encoding of variable size depending on the order the shortened urls were entered into the database.  The first 62 URLs shortened will have an encoding of 1 character, the first 3906 (62x62<sup>1</sup> + 62x62<sup>0</sup>) URLs shortened will have an encoding of 2 or less characters, etc.  It will take over ![286 trillion](https://raw.githubusercontent.com/robertveboyd/rethink-url-shortener/master/images/latex.gif) or 286 trillion entries before the encoding size exceeds 8 character
+Unlike popular URL shortening services that use a fixed character size encoding, this particular implementation has encoding of variable size depending on the order the shortened URLs were entered into the database.  The first 62 URLs shortened will have an encoding of 1 character, the first 3906 (62x62<sup>1</sup> + 62x62<sup>0</sup>) URLs shortened will have an encoding of 2 or less characters, etc.  It will take over ![286 trillion](https://raw.githubusercontent.com/robertveboyd/rethink-url-shortener/master/images/latex.gif) or 286 trillion entries before the encoding size exceeds 8 character
 
 #### Assumptions / Limitations
 
